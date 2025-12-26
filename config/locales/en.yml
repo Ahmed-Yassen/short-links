@@ -2,3 +2,11 @@ en:
   slug_generator:
     errors:
       invalid_input: "ID must be a non-negative integer"
+  activerecord:
+    errors:
+      models:
+        short_link:
+          attributes:
+            original_url:
+              invalid_format: "must be a valid HTTP/HTTPS URL"
+              recursive_link: "cannot be a link to this service"
