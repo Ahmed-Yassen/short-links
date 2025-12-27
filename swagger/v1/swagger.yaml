@@ -1,0 +1,57 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/encode":
+    post:
+      summary: Creates a short link
+      tags:
+      - Links
+      parameters: []
+      responses:
+        '200':
+          description: link found (idempotent)
+        '201':
+          description: link created
+        '400':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: https://www.google.com
+              required:
+              - url
+  "/decode":
+    post:
+      summary: Decodes a short link
+      tags:
+      - Links
+      parameters: []
+      responses:
+        '200':
+          description: link decoded
+        '404':
+          description: link not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: http://myshortner.com/X
+              required:
+              - url
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
