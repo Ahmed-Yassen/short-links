@@ -1,30 +1,39 @@
 # config/database.yml
 
-# 1. DEFAULT SETTINGS (Used by Dev & Test)
+# 1. DEFAULT SETTINGS
 default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # Docker uses 'db', Local uses 'localhost'
   host: <%= ENV.fetch("DB_HOST", "localhost") %>
   username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", "password") %>
 
-# 2. DEVELOPMENT (Local/Docker)
+# 2. DEVELOPMENT
 development:
   <<: *default
   database: short_link_development
 
-# 3. TEST (RSpec)
+# 3. TEST
 test:
   <<: *default
   database: short_link_test
 
-# 4. PRODUCTION (Render)
-# We do NOT use <<: *default here.
-# We rely solely on the DATABASE_URL provided by Render.
+# 4. PRODUCTION (The Fix)
+# Rails 8 requires 'primary', 'cable', 'queue', and 'cache' keys.
+# We map them ALL to the same DATABASE_URL from Render.
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= ENV["DATABASE_URL"] %>
+  primary: &primary_production
+    adapter: postgresql
+    encoding: unicode
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    url: <%= ENV["DATABASE_URL"] %>
+
+  cable:
+    <<: *primary_production
+
+  queue:
+    <<: *primary_production
+
+  cache:
+    <<: *primary_production
