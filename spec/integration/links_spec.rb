@@ -17,6 +17,11 @@ RSpec.describe 'Short Link API', type: :request do
 
       response '200', 'link found (idempotent)' do
         let(:link) { { url: 'https://www.google.com' } }
+
+        before do
+          ShortLink.create!(original_url: 'https://www.google.com', slug: 'existing')
+        end
+
         run_test!
       end
 
@@ -47,7 +52,7 @@ RSpec.describe 'Short Link API', type: :request do
       }
 
       response '200', 'link decoded' do
-        let(:short_link) { ShortLink.create!(original_url: 'https://google.com') }
+        let(:short_link) { ShortLink.create!(original_url: 'https://google.com', slug: 'abc') }
         let(:body) { { url: short_link.slug } }
         run_test!
       end
