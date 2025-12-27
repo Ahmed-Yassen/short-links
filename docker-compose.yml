@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+
+  web:
+    build: .
+    command: ./bin/rails server -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      RAILS_ENV: development
+      DB_HOST: ${DB_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_URL: ${REDIS_URL}
+      APP_HOST: ${APP_HOST}
+    volumes:
+      - .:/rails
+
+volumes:
+  postgres_data:
+  redis_data:
