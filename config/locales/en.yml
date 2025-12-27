@@ -15,6 +15,7 @@ en:
       bad_request: "Bad Request"
       unprocessable_entity: "Unprocessable Entity"
       not_found: "%{resource} not found"
+      rate_limit_exceeded: "Rate limit exceeded. Try again later."
   short_links:
     errors:
       url_blank: "URL cannot be blank"
