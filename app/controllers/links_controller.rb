@@ -2,6 +2,7 @@ class LinksController < ApplicationController
   def encode
     url = encode_params
     link = ShortLink.shorten(url)
+    LinkRepository.warm_cache(link)
     status = link.previously_new_record? ? :created : :ok
 
     render json: {
@@ -14,9 +15,9 @@ class LinksController < ApplicationController
     url = decode_params
     slug = extract_slug(url)
 
-    link = ShortLink.find_by!(slug: slug)
+    original_url = LinkRepository.find_original_url(slug)
 
-    render json: { original_url: link.original_url }, status: :ok
+    render json: { original_url: original_url }, status: :ok
   end
 
   private
