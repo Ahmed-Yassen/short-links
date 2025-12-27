@@ -1,8 +1,11 @@
 class ShortLink < ApplicationRecord
   validates :original_url, presence: true, url: { no_recursion: true }
 
+  class BlankUrlError < StandardError; end
+
   def self.shorten(url)
-    return nil if url.blank?
+    raise BlankUrlError, I18n.t("short_links.errors.url_blank") if url.blank?
+
     clean_url = url.strip.chomp("/")
 
     if existing = find_by(original_url: clean_url)

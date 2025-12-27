@@ -10,3 +10,11 @@ en:
             original_url:
               invalid_format: "must be a valid HTTP/HTTPS URL"
               recursive_link: "cannot be a link to this service"
+  api:
+    errors:
+      bad_request: "Bad Request"
+      unprocessable_entity: "Unprocessable Entity"
+      not_found: "%{resource} not found"
+  short_links:
+    errors:
+      url_blank: "URL cannot be blank"

@@ -63,11 +63,6 @@ RSpec.describe ShortLink, type: :model do
 
   describe ".shorten" do
     context "Input Normalization" do
-      it "returns nil for blank inputs" do
-        expect(described_class.shorten(nil)).to be_nil
-        expect(described_class.shorten("   ")).to be_nil
-      end
-
       it "strips trailing slashes from the URL" do
         link = described_class.shorten("https://google.com/")
         expect(link.original_url).to eq("https://google.com")
@@ -159,6 +154,20 @@ RSpec.describe ShortLink, type: :model do
     end
 
     context "Validation Failures" do
+      let(:error_message) { I18n.t('short_links.errors.url_blank') }
+
+      it "raises an ArgumentError for nil" do
+        expect {
+          described_class.shorten(nil)
+        }.to raise_error(ShortLink::BlankUrlError, error_message)
+      end
+
+      it "raises an ArgumentError for whitespace strings" do
+        expect {
+          described_class.shorten("   ")
+        }.to raise_error(ShortLink::BlankUrlError, error_message)
+      end
+
       it "raises an error if the URL is invalid (doesn't silently return nil)" do
         expect {
           described_class.shorten("ftp://invalid-scheme.com")
