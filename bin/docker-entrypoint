@@ -1,10 +1,13 @@
 #!/bin/bash
 set -e
 
-# Remove a potentially pre-existing server.pid for Rails.
 if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
-# Execute the container's main process (what's set as CMD in the Dockerfile).
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  echo "Deploying: Running Database Migrations..."
+  ./bin/rails db:migrate
+fi
+
 exec "$@"
