@@ -13,9 +13,17 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'http://{defaultHost}',
+          url: 'https://{defaultHost}',
           variables: {
             defaultHost: {
+              default: ENV.fetch('APP_HOST')
+            }
+          }
+        },
+        {
+          url: 'http://{localHost}',
+          variables: {
+            localHost: {
               default: 'localhost:3000'
             }
           }

@@ -51,7 +51,11 @@ paths:
               required:
               - url
 servers:
-- url: http://{defaultHost}
+- url: https://{defaultHost}
   variables:
     defaultHost:
+      default: myshortner.com
+- url: http://{localHost}
+  variables:
+    localHost:
       default: localhost:3000
