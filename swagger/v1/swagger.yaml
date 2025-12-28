@@ -54,7 +54,7 @@ servers:
 - url: https://{defaultHost}
   variables:
     defaultHost:
-      default: myshortner.com
+      default: short-link-app-160f.onrender.com
 - url: http://{localHost}
   variables:
     localHost:

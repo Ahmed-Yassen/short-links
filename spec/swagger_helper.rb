@@ -16,7 +16,7 @@ RSpec.configure do |config|
           url: 'https://{defaultHost}',
           variables: {
             defaultHost: {
-              default: ENV.fetch('APP_HOST')
+              default: 'short-link-app-160f.onrender.com'
             }
           }
         },
