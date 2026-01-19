@@ -39,7 +39,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 group :development do
-  gem "listen", "~> 3.3"
+  gem "listen", "~> 3.10"
 end
 
 group :development, :test do
